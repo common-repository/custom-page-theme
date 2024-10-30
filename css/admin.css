@@ -1,0 +1,16 @@
+fieldset { border: 2px solid #b1d3ec;; padding:10px 5px;}
+font{color:#f00}
+.jscss50per{border:1px solid georgian; border-style:dashed;padding:.5%; width:45%;clear;both;float:left; margin:.5%; height:30px;}
+.jscss50per label{width:20%; font-size:13px;}
+.jscss50per input[type='text']{width: 70%}
+.jscss30pernobrdr{padding:.5%; width:30%;clear;both;float:left; margin:.5%; min-height:30px;}
+.jscss60pernonrdr{padding:.5%; width:60%;clear;both;float:left; margin:.5%; min-height:30px;}
+.clear{clear:both}
+ tr{border-bottom-color:#db4437; border-bottom-width:2px;}
+#err_msg  ul { background: #ff9999; padding: 20px;list-style:square;}
+#err_msg ul li{background: #ffe5e5;margin: 5px; padding-left:5px;}
+.shrtcd{background-color:#000 !important; color: #FFF; width:100%;min-height:100px}
+fieldset.fieldst1{float:left; width:50%; margin:2px}
+fieldset.fieldst2{float:left; width:20%;  margin:2px}
+
+

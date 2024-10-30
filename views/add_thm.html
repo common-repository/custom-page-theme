@@ -1,0 +1,264 @@
+<div class="wrap">
+<h2>Add Custom page theme</h2>
+ <style>
+         .sortable { list-style-type: none; margin: 0; 
+            padding: 0; width: 85%; }
+         .sortable li { margin: 0 3px 3px 3px; padding: 0.4em; 
+            padding-left: 1.5em; font-size: 17px; height: auto; }
+         .default {
+            background: #cedc98;
+            border: 1px solid #DDDDDD;
+            color: #333333;
+         }
+		 .rd{color:red;}
+      </style>
+	
+<table class="">
+		<tr valign="top">
+			<td><strong>To create a new custom page theme folow some simple rules.</strong></td>
+		</tr>
+		<tr valign="top">
+			<td>1. Define the title of the theme.</td>
+		</tr>
+		<tr valign="top">
+			<td>2. A WordPress theme needs atleast two files to be exist - <i>style.css</i> and <i>index.php</i></td>
+		</tr>
+		<tr valign="top">
+			<td>3. <b>Be Sure:</b></td>
+		</tr>
+		<tr valign="top">
+			<td>&nbsp;&nbsp;&nbsp;a. The <i>index.php</i> must not contains tags like <strong>DOCTYPE, html,head OR body</strong>. WordPress has it's own functions for adding header & footer of files. For first time users, we recommend to let plugin load it's own default <i>index.php</i> file.</td>
+		</tr>
+		<tr valign="top">
+			<td>&nbsp;&nbsp;&nbsp;b. The plugin will itself call style.css (and other associated javascript, stylesheets etc.) into <i>index.php</i>. So remove all the calls to stylesheets and javascript files from you html into <i>index.php</i>.</td>
+		</tr>
+		<tr valign="top">
+			<td><h2 class="rd">For first time users, we recommend to let plugin load it's own default <i>index.php</i> & <i>style.css</i> files.</h2></td>
+		</tr>
+	</table>
+	  <!-- Add form validation -->
+	 <script>
+         jQuery(function() {
+        	
+			jQuery( "#admnFrm" ).submit(function( event ) {
+			    var reslt = true;
+				var errlst = jQuery('<ul/>');
+				
+				if(jQuery('input[name="theme_title"]').val() ==""){
+					errlst.append("<li>Theme Title is required field!</li>");
+					jQuery('[name="theme_title"]').parent().parent().css("background-color", "#ff9999");
+					reslt = false;
+				}else {
+					jQuery('[name="theme_title"]').parent().parent().css("background-color", "#cedc98");
+				}
+				if(jQuery('textarea[name="theme_description"]').val() == ""){
+					errlst.append("<li>Theme Description is required field!</li>");
+					jQuery('[name="theme_description"]').parent().parent().css("background-color", "#ff9999");
+					jQuery('textarea[name="theme_description"]').css("background-color", "#ffe5e5");
+					reslt = false;
+				}else {
+					jQuery('[name="theme_description"]').parent().parent().css("background-color", "#cedc98");
+				}
+				if (!jQuery('#use_default_indx').prop("checked")) {
+					if(jQuery('input[name="theme_index_markup"]').get(0).files.length == 0){
+						errlst.append("<li>index.php file is required!</li>");
+						jQuery('[name="theme_index_markup"]').parent().parent().css("background-color", "#ff9999");
+						jQuery('input[name="theme_index_markup"]').css("background-color", "#ffe5e5");
+						reslt = false;
+					}else {
+						if(jQuery('[name="theme_index_markup"]').val().split('\\').pop() != "index.php"){
+							errlst.append("<li>Invalid file name or extension (Valid entry: index.php)!</li>");
+							jQuery('[name="theme_index_markup"]').parent().parent().css("background-color", "#ff9999");
+							jQuery('input[name="theme_index_markup"]').css("background-color", "#ffe5e5");
+							reslt = false;
+						}
+						else {
+							jQuery('[name="theme_index_markup"]').parent().parent().css("background-color", "#cedc98");
+						}
+					}
+				}else {
+							jQuery('[name="theme_index_markup"]').parent().parent().css("background-color", "#cedc98");
+						}
+				if (!jQuery('#use_default_style').prop("checked")) {
+					if(jQuery('input[name="theme_style"]').val() ==""){
+						errlst.append("<li>Style.css file is required!</li>");
+						jQuery('[name="theme_style"]').parent().parent().css("background-color", "#ff9999");
+						jQuery('input[name="theme_style"]').css("background-color", "#ffe5e5");
+						reslt = false;
+					}else { 
+						if(jQuery('[name="theme_style"]').val().split('\\').pop() != "style.css"){
+							errlst.append("<li>Invalid file name or extension (Valid entry: style.css)!</li>");
+							jQuery('[name="theme_style"]').parent().parent().css("background-color", "#ff9999");
+							jQuery('input[name="theme_style"]').css("background-color", "#ffe5e5");
+							reslt = false;
+						}
+						else {
+							jQuery('[name="theme_style"]').parent().parent().css("background-color", "#cedc98");
+						}
+					}
+				}else {
+							jQuery('[name="theme_style"]').parent().parent().css("background-color", "#cedc98");
+						}
+				var indx = 0;
+				jQuery('[name="theme_js[]"]').each(function(){
+					if(jQuery(this).val() != "" && jQuery(this).val().split('\\').pop().split('\.').pop() != "js"){
+						errlst.append("<li>Invalid Supportive js file extension (Valid extension: js)!</li>");
+						jQuery(this).parent().parent().css("background-color", "#ff9999");
+						reslt = false;
+					}
+					else if(jQuery(this).val() != "" && jQuery('[name="theme_js_title[]"]').eq(indx).val() ==""){
+						errlst.append("<li>Title for Supportive js file is required field!</li>");
+						jQuery(this).parent().parent().css("background-color", "#ff9999");
+						reslt = false;
+					}else{
+						jQuery(this).parent().parent().css("background-color", "#cedc98");
+					}
+					indx++;
+				}); 
+				
+				indx = 0;
+				jQuery('[name="theme_css[]"]').each(function(){
+					if(jQuery(this).val() != "" && jQuery(this).val().split('\\').pop().split('\.').pop() != "css"){
+						errlst.append("<li>Invalid Suportive CSS file extension (Valid extension: css)!</li>");
+						jQuery(this).parent().parent().css("background-color", "#ff9999");
+						reslt = false;
+					}
+					else if(jQuery(this).val() != "" && jQuery('[name="theme_css_title[]"]').eq(indx).val() ==""){
+						errlst.append("<li>Title for Supportive css file is required field!</li>");
+						jQuery(this).parent().parent().css("background-color", "#ff9999");
+						reslt = false;
+					}else{
+						jQuery(this).parent().parent().css("background-color", "#cedc98");
+					}
+					indx++;
+				}); 
+				
+				indx = 0;
+				jQuery('[name="theme_fonts[]"]').each(function(){
+					var fonts = ["otf","eot","svg","ttf","woff","woff2"];
+					var ext = jQuery(this).val().split('\\').pop().split('\.').pop();
+					if(jQuery(this).val() != "" &&  fonts.indexOf(ext) < 0 ){
+						errlst.append("<li>Invalid Font file  extension (Valid extension: otf,eot,svg,ttf,woff,woff2)!</li>");
+						jQuery(this).parent().css("background-color", "#ff9999");
+						reslt = false;
+					}else{
+						jQuery(this).parent().css("background-color", "#cedc98");
+					}
+					indx++;
+				}); 
+				
+				indx = 0;
+				jQuery('[name="theme_img[]"]').each(function(){
+					var imgfls = ["gif","jpg","jpeg","png"];
+					var ext = jQuery(this).val().split('\\').pop().split('\.').pop();
+					if(jQuery(this).val() != "" &&  imgfls.indexOf(ext) < 0 ){
+						errlst.append("<li>Invalid Image file extension (Valid extension: gif,jpg,jpeg,png)!</li>");
+						jQuery(this).parent().css("background-color", "#ff9999");
+						reslt = false;
+					}else{
+						jQuery(this).parent().css("background-color", "#cedc98");
+					}
+					indx++;
+				}); 
+			
+				if(reslt) return;
+				
+				jQuery( "#err_msg" ).html("");
+				jQuery( "#err_msg" ).append(errlst).css({"background-color": "#ff9999"},{"padding": "5px"},{"font-weight":"bold"});
+				window.scrollTo(0, 100);
+					
+				event.preventDefault();
+				//return true;
+
+				
+			});
+
+         });
+		 
+
+      </script>
+<form id="admnFrm" method="post" action="<?php echo admin_url( 'admin.php' ); ?>" enctype="multipart/form-data" >
+   <input type="hidden" name="action" value="addact" />
+    <div id="err_msg"></div>
+	<table class="form-table">
+		<tr valign="top">
+		<th scope="row">Title<font>*</font></th>
+		<td><span><input type="text" name="theme_title" value="" /><span></td>
+		</tr>
+
+		<tr valign="top">
+		<th scope="row">Description<font>*</font></th>
+		<td><span><textarea rows="4" cols="50" name="theme_description"></textarea><span> </td>
+		</tr>
+
+		<tr valign="top">
+		<th scope="row">Upload file (index.php)<font>*</font></th>
+		<td>
+		<span class="jscss30pernobrdr"><input type="checkbox" name="use_default_indx" id="use_default_indx" checked value="1"><label>&nbsp;&nbsp;Let's plugin load it's own index.php</label></span>
+		<span class="jscss60pernonrdr"><input type="file" name="theme_index_markup" id="theme_index_markup" value="" disabled title="The index.php must not contains tags like DOCTYPE, html,head OR body. WordPress has it's own functions for adding header & footer of files. For first time users, we recommend to let plugin load it's default index.php file." /><br/><i></i></span>
+		</td>
+		</tr>
+		 
+		<tr valign="top">
+		<th scope="row">Upload file (style.css)<font>*</font></th>
+		<td>
+		<span class="jscss30pernobrdr"><input type="checkbox" name="use_default_style" id="use_default_style" checked value="1"><label>&nbsp;&nbsp;Let's plugin load it's own style.css</label></span>
+		<span class="jscss60pernonrdr"><input type="file" name="theme_style" id="theme_style" value="" disabled  /><br/><i></i></span>
+		</td>
+		</tr>
+
+		<tr valign="top">
+		<td colspan="2">
+			<fieldset>
+				<legend>Upload Supportive JS files</legend>
+				<button id="add_field_button_js" class="add_field_button">Add More JS</button><br/><br/>
+				<ul id = "supportive_js" class="sortable input_fields_wrap">
+					 <li class ="default"><span class="jscss50per"><label>File Title<font>*</font>:&nbsp;&nbsp;</label><input type="text" name="theme_js_title[]"></span><span class="jscss50per"><input type="file" name="theme_js[]" value="" /><a href="#" class="remove_field">Remove</a></span><div class="clear">&nbsp;</div></li>
+				 </ul>
+			</fieldset>
+		</td>
+		</tr>
+
+		<tr valign="top">
+		<td colspan="2">
+			<fieldset>
+				<legend>Upload Supportive CSS files</legend>
+				<button id="add_field_button_css" class="add_field_button">Add More CSS</button><br/><br/>
+				<ul id = "supportive_css" class="sortable input_fields_wrap">
+					 <li class = "default"><span class="jscss50per"><label>File Title<font>*</font>:&nbsp;&nbsp;</label><input type="text" name="theme_css_title[]"></span><span class="jscss50per"><input type="file" name="theme_css[]" value="" /><a href="#" class="remove_field">Remove</a></span><div class="clear">&nbsp;</div></li>
+				 </ul>
+			</fieldset>
+		</td>
+		</tr>
+
+		<tr valign="top">
+		<td colspan="2">
+			<fieldset>
+				<legend>Upload Supportive Font Files</legend>
+				<button id="add_field_button_fonts" class="add_field_button">Add More Font Files</button><br/><br/>
+				<ul id = "supportive_fonts" class="sortable input_fields_wrap">
+					 <li class = "default"><input type="file" name="theme_fonts[]" value="" /><a href="#" class="remove_field1">Remove</a></li>
+				 </ul>
+			</fieldset>
+		</td>
+		</tr>
+
+		<tr valign="top">
+		<td colspan="2">
+			<fieldset>
+				<legend>Upload Supportive Images</legend>
+				<button id="add_field_button_img" class="add_field_button">Add More Images</button><br/><br/>
+				<ul id = "supportive_img" class="sortable input_fields_wrap">
+					 <li class = "default"><input type="file" name="theme_img[]" value="" /><a href="#" class="remove_field1">Remove</a></li>
+				 </ul>
+			</fieldset>
+		</td>
+		</tr>
+
+	</table>
+	
+	
+    <?php submit_button(); ?>
+
+</form>
+</div>
